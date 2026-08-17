@@ -1,4 +1,4 @@
-/* Nualia — interaction layer.
+/* Nualia: interaction layer.
    Everything here is progressive: with JS off the page still reads, and every
    motion is disabled under prefers-reduced-motion. */
 (function () {
