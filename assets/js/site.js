@@ -176,14 +176,28 @@
     });
   });
 
-  /* --- the enquiry form is a demo: nothing is sent anywhere ------------- */
-  document.querySelectorAll('form[data-demo]').forEach(function (f) {
+  /* --- the enquiry form composes a message in the visitor's mail app --- */
+  document.querySelectorAll('form[data-mailto]').forEach(function (f) {
     f.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (!f.reportValidity()) { return; }
       tick(14);
+      var to = f.getAttribute('data-mailto');
+      var val = function (n) {
+        var el = f.querySelector('[name="' + n + '"]');
+        return el ? el.value.trim() : '';
+      };
+      var name = val('name');
+      var subject = 'Request for a call back' + (name ? ' from ' + name : '');
+      var body = 'Name: ' + name +
+        '\nEmail: ' + val('email') +
+        '\nBest time to reach me: ' + val('when') +
+        '\n\n' + val('msg') + '\n';
       var msg = f.querySelector('.form__done');
       if (msg) { msg.hidden = false; }
-      f.querySelectorAll('input,textarea,select,button').forEach(function (i) { i.disabled = true; });
+      window.location.href = 'mailto:' + to +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
     });
   });
 })();
