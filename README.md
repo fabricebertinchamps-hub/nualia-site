@@ -25,20 +25,6 @@ no tracking. Open `index.html` in a browser and it works, online or offline.
 When a custom domain is ready: add a `CNAME` file containing `nualia.health`,
 point the DNS at GitHub, and enable *Enforce HTTPS*.
 
-## Before this could ever be public
-
-- Every page carries `noindex` and a demonstration banner. Both must be removed
-  deliberately, not by accident. They are still in place: the intention is to
-  publish behind Cloudflare Access first, with these as a second lock.
-- Pricing has been removed from index.html and membership.html.
-- The investor email address has been removed from contact.html.
-- Health-service advertising in Dubai requires DHA approval. The copy has been
-  written to the brand's claim rules, but it has not been cleared.
-- The people in the photographs are generated. They are cleared for internal and
-  investor use, not for public marketing.
-- The price shown is indicative and marked provisional on the page.
-- The form does nothing. Wiring it to a real inbox is the only code change needed.
-
 ## How it is built
 
 Plain HTML, one stylesheet, one small script.
