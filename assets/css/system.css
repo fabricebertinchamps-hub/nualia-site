@@ -192,3 +192,20 @@
   .day__step{padding:22px 0}
   .day__step p{font-size:14px}
 }
+
+/* =================================== Nualia lockup on every picture and drawing */
+.figure,.band,.film__frame{position:relative}
+.figure:not(.no-badge)::before,.band::before,.film__frame::before{
+  content:"";position:absolute;top:14px;right:14px;z-index:4;pointer-events:none;
+  width:108px;height:34px;border-radius:999px;
+  background:rgba(247,244,238,.9) url("../logo/wordmark.svg") center/80px auto no-repeat;
+  box-shadow:0 8px 22px -14px rgba(4,43,58,.55);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  transition:opacity .4s var(--ease);
+}
+.band::before{top:auto;bottom:clamp(18px,2.4vw,30px);right:var(--gut)}
+.film.is-playing .film__frame::before{opacity:0}
+@media (max-width:640px){
+  .figure:not(.no-badge)::before,.band::before,.film__frame::before{width:88px;height:28px;background-size:64px auto;top:10px;right:10px}
+  .band::before{top:auto;bottom:16px;right:var(--gut)}
+}
