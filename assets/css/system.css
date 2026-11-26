@@ -1,0 +1,194 @@
+/* ==========================================================================
+   Nualia: layout system and interaction layer (v2, November 2026)
+   Loaded after site.css on every page. One column grid, one heading rule,
+   one rhythm, one type scale, one button family, and quiet hover feedback.
+   ========================================================================== */
+
+:root{
+  --read:760px;                          /* the reading column */
+  --pad:clamp(56px,6.5vw,96px);          /* one section rhythm */
+  --lift:cubic-bezier(.2,.8,.2,1);
+  --t-body-s:15.5px;                     /* secondary text, everywhere */
+  --t-cap:13px;                          /* captions and notes */
+}
+
+/* ---------------------------------------------------------- 1. fixes */
+/* the light button sat inside ".bg-lagoon a{color:plaster}" and lost its text */
+.bg-lagoon a.btn--light,.bg-deep a.btn--light,.hero a.btn--light{color:var(--lagoon)}
+.bg-lagoon a.btn--light:hover,.bg-deep a.btn--light:hover,.hero a.btn--light:hover{color:var(--lagoon-deep)}
+/* the oversized mark was capped by img{max-width:100%}, so its horizon ended
+   in open space; restored so every visible line runs off an edge */
+.bleed__mark{max-width:none}
+
+.bg-deep .eyebrow{color:var(--sky)}
+
+/* ------------------------------------------------- 4. one column grid */
+/* narrow sections keep the shared left edge and narrow their content instead
+   of re-centring the whole column (CTA sections are the one exception) */
+.wrap[style*="max-width"]:not(.centred){max-width:var(--max)!important}
+.wrap[style*="max-width"]:not(.centred)>*{max-width:var(--read)}
+.intro{max-width:var(--read);margin-bottom:clamp(36px,4vw,56px)}
+.intro .lede{margin-top:18px}
+
+/* ----------------------------------------------------------- 6. rhythm */
+.section{padding-block:var(--pad)}
+.section--tight{padding-block:clamp(44px,5vw,72px)}
+.opener{padding-bottom:clamp(36px,4vw,56px)}
+.opener+.section{padding-top:clamp(40px,4.5vw,64px)}
+.stack>*+*{margin-top:clamp(14px,1.4vw,22px)}
+.split{gap:clamp(30px,5vw,80px)}
+
+/* --------------------------------------------------- 8. one type scale */
+.card p,.day__step p,.years span,.ledger li,.acc__panel p,.light p,.tlist span,
+.stat span,.callout,.versus__row>*,.panel ul.look li{font-size:var(--t-body-s);line-height:1.65}
+.note,.figcap,.plate figcaption,.small{font-size:var(--t-cap);line-height:1.6}
+.card h3,.day__step h3,.light h3,.years b,.acc__btn{font-size:clamp(20px,1.5vw,24px);line-height:1.25}
+.eyebrow,.layer__tag,.panel .who,.panel h4,.ftr h4{font-size:11.5px;letter-spacing:.19em}
+
+/* -------------------------------------------------- 9. one button family */
+.btn{min-height:48px;padding:0 28px;font-size:14px;line-height:1}
+.hdr__nav .btn{min-height:40px;padding:0 22px;font-size:13.5px}
+.btns{gap:12px}
+
+/* ------------------------------------------- 7. no half-empty columns */
+.split{align-items:center}
+.rings{align-items:center}
+.rings__art{max-width:440px}
+@media (min-width:900px){
+  .split .figure--tall{aspect-ratio:4/5}
+}
+
+/* =================================================== interaction layer */
+
+/* 11. cards: the hairline draws across, the content lifts, the icon wakes */
+.card,.day__step,.light,.ftr__top>div{position:relative}
+.card::after,.light::after{
+  content:"";position:absolute;top:-1px;left:0;height:1px;width:0;background:var(--lagoon);
+  transition:width .7s var(--slow);
+}
+.bg-lagoon .card::after,.bg-deep .card::after,.bg-deep .day__step::after{background:var(--sky)}
+.card>*,.day__step>*,.light>*{transition:transform .55s var(--lift)}
+.card .icon,.day__step .icon,.light .icon,.layer .icon{transition:transform .55s var(--lift),color .4s var(--ease)}
+@media (hover:hover){
+  .card:hover::after,.light:hover::after{width:100%}
+  .card:hover>*,.day__step:hover>*,.light:hover>*{transform:translateY(-4px)}
+  .card:hover .icon,.day__step:hover .icon,.light:hover .icon{transform:translateY(-6px) scale(1.08)}
+  .card:hover h3,.day__step:hover h3,.light:hover h3{color:var(--lagoon)}
+  .bg-lagoon .card:hover h3,.bg-deep .card:hover h3,.bg-deep .day__step:hover h3{color:var(--sky)}
+  .layer{transition:transform .6s var(--lift),box-shadow .6s var(--ease)}
+  .layer:hover{transform:translateY(-4px);box-shadow:0 30px 60px -40px rgba(4,43,58,.45)}
+  .tlist li{transition:background .35s var(--ease),padding .45s var(--lift)}
+  .tlist li:hover{background:rgba(198,231,239,.35);padding-left:8px}
+  .layer--core .tlist li:hover{background:rgba(247,244,238,.08)}
+  .tlist li:hover .icon{transform:scale(1.12)}
+  .ledger li,.versus__row{transition:background .35s var(--ease),padding .45s var(--lift)}
+  .ledger li:hover{background:rgba(255,255,255,.55);padding-left:38px}
+  .versus__row:not(.versus__head):hover{background:rgba(198,231,239,.28);padding-inline:12px}
+  .years li{transition:opacity .6s var(--ease),padding .45s var(--lift)}
+  .years li.on:hover{padding-left:34px}
+}
+
+/* 12. icons draw themselves once, when they arrive */
+.icon.draw path:not([stroke-dasharray]),.icon.draw circle:not([stroke-dasharray]),.icon.draw rect:not([stroke-dasharray]),.icon.draw line:not([stroke-dasharray]),.icon.draw polyline:not([stroke-dasharray]),.icon.draw ellipse:not([stroke-dasharray]){
+  stroke-dasharray:var(--l,120);stroke-dashoffset:var(--l,120);transition:stroke-dashoffset 1.3s var(--slow)
+}
+.icon.draw.drawn path:not([stroke-dasharray]),.icon.draw.drawn circle:not([stroke-dasharray]),.icon.draw.drawn rect:not([stroke-dasharray]),.icon.draw.drawn line:not([stroke-dasharray]),.icon.draw.drawn polyline:not([stroke-dasharray]),.icon.draw.drawn ellipse:not([stroke-dasharray]){stroke-dashoffset:0}
+
+/* 13. photographs: a slow zoom and a passing sheen */
+.figure img,.plate img{transition:transform 1.4s var(--slow)}
+.figure::after,.plate::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);
+  transform:translateX(-120%);transition:transform 1.2s var(--slow);
+}
+.plate{position:relative}
+@media (hover:hover){
+  .figure:hover img,.plate:hover img{transform:scale(1.04)}
+  .figure:hover::after,.plate:hover::after{transform:translateX(120%)}
+}
+
+/* 15. questions and limits: the whole row answers the pointer */
+.acc__btn{transition:color .35s var(--ease),padding .45s var(--lift)}
+.acc__btn::before,.acc__btn::after{transition:transform .5s var(--slow),opacity .4s,background .3s}
+@media (hover:hover){
+  .acc__item:hover .acc__btn{color:var(--lagoon);padding-left:10px}
+}
+.acc__item{transition:background .35s var(--ease)}
+.acc__item:hover,.acc__item.open{background:linear-gradient(90deg,rgba(198,231,239,.32),transparent 85%)}
+.acc__item.open .acc__btn{color:var(--lagoon)}
+.acc__item.open .acc__btn::before{transform:rotate(180deg)}
+.acc__panel>div{padding-left:10px}
+
+/* links: arrow and underline respond together */
+.lnk:hover{color:var(--lagoon-deep)}
+.bg-lagoon .lnk:hover,.bg-deep .lnk:hover{color:var(--sky)}
+
+/* focus is always visible for keyboard users */
+:focus-visible{outline:2px solid var(--lagoon);outline-offset:3px;border-radius:2px}
+.bg-lagoon :focus-visible,.bg-deep :focus-visible,.hero :focus-visible{outline-color:var(--sky)}
+
+/* 16. reading progress and section dots */
+.progress{position:fixed;left:0;right:0;top:var(--demo);height:2px;z-index:70;pointer-events:none}
+.progress i{display:block;height:100%;width:100%;background:var(--lagoon);transform-origin:left;transform:scaleX(0)}
+.dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:55;display:none;flex-direction:column;gap:12px}
+@media (min-width:1180px){.dots{display:flex}}
+.dots a{position:relative;display:block;width:9px;height:9px;border-radius:50%;border:1px solid var(--lagoon);background:transparent;transition:background .35s,transform .45s var(--lift)}
+.dots a.on{background:var(--lagoon);transform:scale(1.25)}
+.dots a span{
+  position:absolute;right:20px;top:50%;transform:translate(6px,-50%);white-space:nowrap;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--lagoon-deep);
+  background:rgba(247,244,238,.95);padding:5px 10px;border-radius:999px;box-shadow:0 8px 24px -14px rgba(4,43,58,.6);
+  opacity:0;pointer-events:none;transition:opacity .3s,transform .45s var(--lift)
+}
+.dots a:hover span{opacity:1;transform:translate(0,-50%)}
+.dots.on-dark a{border-color:var(--sky)}
+.dots.on-dark a.on{background:var(--sky)}
+
+/* ===================================================== home: inside the scan */
+.inside .day{margin-top:clamp(44px,5vw,72px)}
+.bg-deep .day__step{border-top-color:var(--hair-rev)}
+.bg-deep .day__step p{color:rgba(247,244,238,.72)}
+.bg-deep .day__step .n{color:var(--sky)}
+.bg-deep .day__step::after{background:var(--sky)}
+
+/* =========================================================== 18. phone */
+@media (max-width:759px){
+  .swipe{display:flex!important;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+    margin-inline:calc(-1 * var(--gut));padding-inline:var(--gut);scroll-padding-inline:var(--gut);
+    -webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .swipe::-webkit-scrollbar{display:none}
+  .swipe>*{flex:0 0 78%;scroll-snap-align:start;margin-top:0!important}
+  .swipe .figure--tall{aspect-ratio:4/5}
+  .swipe-hint{display:flex;gap:6px;justify-content:center;margin-top:16px}
+  .swipe-hint i{width:6px;height:6px;border-radius:50%;background:var(--hair);transition:background .3s,width .4s var(--lift)}
+  .swipe-hint i.on{background:var(--lagoon);width:18px;border-radius:3px}
+}
+@media (min-width:760px){.swipe-hint{display:none}}
+
+/* 20. a call bar on phones */
+.callbar{display:none}
+@media (max-width:840px){
+  .callbar{
+    display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:58;
+    align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 10px 10px 20px;border-radius:999px;background:rgba(4,43,58,.94);color:var(--plaster);
+    box-shadow:0 18px 40px -18px rgba(4,43,58,.7);
+    transform:translateY(140%);transition:transform .55s var(--slow);
+  }
+  .callbar.show{transform:none}
+  .callbar span{font-size:13.5px;letter-spacing:.02em;opacity:.85}
+  .callbar .btn{min-height:42px;padding:0 20px;font-size:13.5px}
+  body.nav-open .callbar{transform:translateY(140%)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .card>*,.day__step>*,.light>*,.layer,.figure img,.plate img,.tlist li,.acc__btn{transition:none!important;transform:none!important}
+  .icon.draw *{stroke-dashoffset:0!important;transition:none!important}
+}
+
+/* phones: the four steps of the day sit two by two */
+@media (max-width:859px){
+  .day{grid-template-columns:1fr 1fr;column-gap:18px}
+  .day__step{padding:22px 0}
+  .day__step p{font-size:14px}
+}

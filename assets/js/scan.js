@@ -102,6 +102,7 @@
       if (sel !== r.id) return;
       h += '<text class="zlab" x="' + r.lab[0] + '" y="' + r.lab[1] + '" text-anchor="middle">' + r.name.toUpperCase() + '</text>';
     });
+    h += '<text class="zlab hovlab" id="hovlab" text-anchor="middle"></text>';
     ov.innerHTML = h;
     btns.innerHTML = visible().map(function (r) { return '<button type="button" data-r="' + r.id + '" aria-pressed="' + (sel === r.id) + '">' + r.name + '</button>'; }).join('');
   }
@@ -132,6 +133,13 @@
     draw(); if (sel) show(sel); else intro();
   }
   function choose(id) { sel = (sel === id) ? null : id; refresh(); }
+  ov.addEventListener('mouseover', function (e) {
+    var z = e.target.closest('[data-r]'), t = document.getElementById('hovlab'); if (!t) return;
+    if (!z || z.getAttribute('data-r') === sel) { t.textContent = ''; return; }
+    var r = REG.filter(function (x) { return x.id === z.getAttribute('data-r'); })[0];
+    t.setAttribute('x', r.lab[0]); t.setAttribute('y', r.lab[1]); t.textContent = r.name.toUpperCase();
+  });
+  ov.addEventListener('mouseleave', function () { var t = document.getElementById('hovlab'); if (t) t.textContent = ''; });
   ov.addEventListener('click', function (e) { var z = e.target.closest('[data-r]'); if (z) choose(z.getAttribute('data-r')); });
   ov.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { var z = e.target.closest('[data-r]'); if (z) { e.preventDefault(); choose(z.getAttribute('data-r')); } } });
   btns.addEventListener('click', function (e) { var b = e.target.closest('[data-r]'); if (b) choose(b.getAttribute('data-r')); });
