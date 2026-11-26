@@ -45,6 +45,13 @@
   /* Film: a quiet play button over the poster. */
   var film = $('.film'), v = $('#filmVideo'), pb = $('.film__play');
   if (film && v && pb) {
+    /* Phones held upright get the vertical cut, full width. */
+    if (window.matchMedia && matchMedia('(max-width: 760px) and (orientation: portrait)').matches) {
+      film.classList.add('film--v');
+      v.poster = 'assets/video/nualia-mri-film-9x16-poster.jpg';
+      var src = v.querySelector('source'); if (src) src.src = 'assets/video/nualia-mri-film-9x16.mp4';
+      v.load();
+    }
     pb.addEventListener('click', function () { v.controls = true; v.play(); });
     v.addEventListener('play', function () { film.classList.add('is-playing'); });
     v.addEventListener('pause', function () { if (v.currentTime < .5) film.classList.remove('is-playing'); });

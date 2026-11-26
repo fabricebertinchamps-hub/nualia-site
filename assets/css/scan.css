@@ -128,3 +128,6 @@
 @media (hover:hover){.regions button:hover{transform:translateY(-2px)}}
 .film{max-width:none}
 .plate[style*="max-width:760px"]{margin-left:0!important}
+
+/* Vertical cut on phones */
+.film--v .film__frame{aspect-ratio:9/16;max-height:88vh;max-height:88svh;margin-inline:auto}
