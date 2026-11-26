@@ -192,3 +192,7 @@
   .day__step{padding:22px 0}
   .day__step p{font-size:14px}
 }
+
+/* Home hero: wall mark whole in frame on wide screens, the scanner on phones */
+.hero__media img.hero-f{object-position:100% 50%;transform-origin:100% 50%}
+@media (max-width:840px){.hero__media img.hero-f{object-position:46% 50%}}
