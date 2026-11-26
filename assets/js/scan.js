@@ -90,9 +90,7 @@
   function visible() { return REG.filter(function (r) { return !r.sex || r.sex === sex; }); }
 
   function draw() {
-    var h = '<defs><pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="rgba(247,244,238,.5)"/><line x1="0" y1="0" x2="0" y2="10" stroke="#5A636C" stroke-opacity=".35" stroke-width="3"/></pattern></defs>';
-    h += '<rect class="nocover" x="935" y="330" width="427" height="210"><title>Not scanned: mid-thigh to feet</title></rect>';
-    h += '<text class="nocover-lab" x="1150" y="318" text-anchor="middle">Not scanned</text>';
+    var h = '';
     visible().forEach(function (r) {
       var cls = 'zone' + (sel === r.id ? ' on' : (sel ? ' dim' : ' pulse'));
       var a = 'class="' + cls + '" data-r="' + r.id + '" tabindex="0" role="button" aria-label="' + r.name + '"';
