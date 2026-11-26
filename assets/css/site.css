@@ -109,7 +109,7 @@ strong{font-weight:600}
 .hdr.is-stuck::after{opacity:1}
 .hdr__logo{flex:none;display:block}
 .hdr__logo img{height:24px;width:auto;transition:opacity .4s var(--ease)}
-.hdr__logo .rev{position:absolute;top:0;left:0}
+.hdr__logo .rev{position:absolute;top:0;left:0;opacity:0}
 .hdr__nav{margin-left:auto;display:flex;align-items:center;gap:clamp(18px,2.4vw,38px)}
 .hdr__nav a{
   font-size:13.5px;letter-spacing:.05em;text-decoration:none;position:relative;
@@ -123,6 +123,9 @@ strong{font-weight:600}
 /* over the hero, before scroll, the header is reversed */
 .hdr--over{color:var(--plaster)}
 .hdr--over .hdr__logo .lit{opacity:0}
+.hdr--over .hdr__logo .rev{opacity:1}
+.hdr--over:not(.is-stuck) .hdr__nav .btn--ghost{color:var(--plaster);border-color:rgba(247,244,238,.55)}
+.hdr--over:not(.is-stuck) .hdr__nav .btn--ghost:hover{background:var(--plaster);color:var(--lagoon)}
 .hdr.is-stuck{color:var(--ink)}
 .hdr.is-stuck .hdr__logo .lit{opacity:1}
 .hdr.is-stuck .hdr__logo .rev{opacity:0}
@@ -408,7 +411,16 @@ body{padding-top:var(--demo)}
     transition:clip-path .7s var(--slow);
   }
   .hdr__nav a{font-family:var(--display);font-size:30px;letter-spacing:0;padding:10px 0}
-  .hdr__nav .btn{margin-top:20px}
+  .hdr__nav .btn{margin-top:22px;font-family:var(--body);font-size:15px;letter-spacing:.06em;color:var(--plaster);border-color:rgba(247,244,238,.55);padding:14px 30px}
+  .hdr__nav .btn:hover{background:var(--plaster);color:var(--lagoon)}
+  .hdr__nav a.btn::after{display:none}
+  /* a backdrop-filter on the header would trap the fixed menu inside the header bar */
+  .hdr.is-stuck{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(247,244,238,.97)}
+  body.nav-open .hdr{background:transparent;color:var(--plaster)}
+  body.nav-open .hdr::after{opacity:0}
+  body.nav-open .hdr__logo{position:relative;z-index:2}
+  body.nav-open .hdr .hdr__logo .lit{opacity:0}
+  body.nav-open .hdr .hdr__logo .rev{opacity:1}
   body.nav-open .hdr__nav{clip-path:circle(150% at calc(100% - 44px) 34px)}
   body.nav-open{overflow:hidden}
   .hdr__burger{
